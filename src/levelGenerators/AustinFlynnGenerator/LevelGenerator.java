@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import engine.core.MarioLevel;
 import engine.core.MarioLevelGenerator;
 import engine.core.MarioLevelModel;
 import engine.core.MarioTimer;
@@ -87,7 +88,25 @@ public class LevelGenerator implements MarioLevelGenerator{
     private void chunk5(MarioLevelModel model){
         for(int i=world_dist;i<world_dist+20;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
+            if(i>world_dist+2&&i<world_dist+18){
+                model.setBlock(i, getFloor(model)-1, MarioLevelModel.PYRAMID_BLOCK);
+            }
+            if(i>world_dist+4&&i<world_dist+16){
+                model.setBlock(i, getFloor(model)-2, MarioLevelModel.PYRAMID_BLOCK);
+            }
+            if(i>world_dist+6&&i<world_dist+14){
+                model.setBlock(i, getFloor(model)-3, MarioLevelModel.PYRAMID_BLOCK);
+            }
+            if(i>world_dist+8&&i<world_dist+12){
+                model.setBlock(i, getFloor(model)-4, MarioLevelModel.PYRAMID_BLOCK);
+            }
         }
+        model.setBlock(world_dist+3, getFloor(model)-2, MarioLevelModel.RED_KOOPA);
+        model.setBlock(world_dist+17, getFloor(model)-2, MarioLevelModel.RED_KOOPA);
+        model.setBlock(world_dist+7, getFloor(model)-4, MarioLevelModel.RED_KOOPA);
+        model.setBlock(world_dist+13, getFloor(model)-4, MarioLevelModel.RED_KOOPA);
+        model.setBlock(world_dist+10, getFloor(model)-6, MarioLevelModel.RED_KOOPA);
+        model.setBlock(world_dist+10, getFloor(model)-7, MarioLevelModel.SPECIAL_QUESTION_BLOCK);
         world_dist +=20;
     }
     private void end_chunk(MarioLevelModel model){
