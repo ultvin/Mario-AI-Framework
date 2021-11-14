@@ -57,8 +57,21 @@ public class LevelGenerator implements MarioLevelGenerator{
     }
 
     private void chunk3(MarioLevelModel model){
-        for(int i=world_dist;i<world_dist+20;i++){
+        for(int i=world_dist; i<world_dist+5;i++){
+            model.setBlock(i, getFloor(model)-3, MarioLevelModel.NORMAL_BRICK);
+            model.setBlock(i, getFloor(model)-4, MarioLevelModel.COIN);
+        }
+        for(int i=world_dist+5;i<world_dist+15;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
+            if(!(i >= world_dist+13)) {
+                model.setBlock(i + 1, getFloor(model) - 5, MarioLevelModel.NORMAL_BRICK);
+                model.setBlock(i + 1, getFloor(model) - 6, MarioLevelModel.COIN);
+            }
+        }
+        model.setBlock(world_dist+10, getFloor(model)-2, MarioLevelModel.GREEN_KOOPA);
+        for(int i=world_dist+15; i<world_dist+20;i++){
+            model.setBlock(i, getFloor(model)-3, MarioLevelModel.NORMAL_BRICK);
+            model.setBlock(i, getFloor(model)-4, MarioLevelModel.COIN);
         }
         world_dist +=20;
     }
@@ -67,6 +80,7 @@ public class LevelGenerator implements MarioLevelGenerator{
         for(int i=world_dist;i<world_dist+20;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
         }
+
         world_dist +=20;
     }
 
@@ -77,9 +91,17 @@ public class LevelGenerator implements MarioLevelGenerator{
         world_dist +=20;
     }
     private void end_chunk(MarioLevelModel model){
-        for(int i=world_dist;i<world_dist+20;i++){
+        for(int i=world_dist;i<world_dist+12;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
         }
+        model.setBlock(world_dist+12, getFloor(model)-3, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+13, getFloor(model)-3, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+14, getFloor(model)-5, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+15, getFloor(model)-5, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+16, getFloor(model)-7, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+17, getFloor(model)-7, MarioLevelModel.PLATFORM);
+        model.setBlock(world_dist+18, getFloor(model), MarioLevelModel.GROUND);
+        model.setBlock(world_dist+19, getFloor(model), MarioLevelModel.GROUND);
         model.setBlock(world_dist+19, getFloor(model)-1, MarioLevelModel.MARIO_EXIT);
     }
 
@@ -127,47 +149,47 @@ public class LevelGenerator implements MarioLevelGenerator{
         //setting up frequency table for chunk transitions
         transition_matrix = new ArrayList<>();
         transition_matrix.add(new ArrayList<Double>());
+            transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(1.0);
             transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
+            transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(1.0);
             transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(0.0);
-            transition_matrix.get(1).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
+            transition_matrix.get(2).add(0.0);
             transition_matrix.get(2).add(0.0);
             transition_matrix.get(2).add(0.0);
             transition_matrix.get(2).add(1.0);
             transition_matrix.get(2).add(0.0);
             transition_matrix.get(2).add(0.0);
-            transition_matrix.get(2).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
+            transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(1.0);
             transition_matrix.get(3).add(0.0);
-            transition_matrix.get(3).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
+            transition_matrix.get(4).add(0.0);
             transition_matrix.get(4).add(0.0);
             transition_matrix.get(4).add(0.0);
             transition_matrix.get(4).add(0.0);
             transition_matrix.get(4).add(0.0);
             transition_matrix.get(4).add(1.0);
-            transition_matrix.get(4).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
             transition_matrix.get(5).add(1.0);
+            transition_matrix.get(5).add(0.0);
+            transition_matrix.get(5).add(0.0);
+            transition_matrix.get(5).add(0.0);
+            transition_matrix.get(5).add(0.0);
+            transition_matrix.get(5).add(0.0);
 
         start_chunk(model);
 
