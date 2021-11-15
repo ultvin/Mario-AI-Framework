@@ -81,7 +81,7 @@ public class LevelGenerator implements MarioLevelGenerator{
         for(int i=world_dist;i<world_dist+20;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
         }
-
+        
         world_dist +=20;
     }
 
