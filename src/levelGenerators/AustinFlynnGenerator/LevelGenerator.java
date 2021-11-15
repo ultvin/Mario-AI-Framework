@@ -106,7 +106,12 @@ public class LevelGenerator implements MarioLevelGenerator{
         for(int i=world_dist;i<world_dist+20;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
         }
-
+        model.setBlock(world_dist, getFloor(model)-4, MarioLevelModel.LIFE_HIDDEN_BLOCK);
+        model.setBlock(world_dist+5, getFloor(model)-1, MarioLevelModel.SPIKY);
+        model.setBlock(world_dist, getFloor(model)-1, MarioLevelModel.PYRAMID_BLOCK);
+        model.setBlock(world_dist+10, getFloor(model)-1, MarioLevelModel.PYRAMID_BLOCK);
+        model.setBlock(world_dist+15, getFloor(model)-1, MarioLevelModel.SPIKY);
+        model.setBlock(world_dist+19, getFloor(model)-1, MarioLevelModel.PYRAMID_BLOCK);
         world_dist +=20;
     }
 
