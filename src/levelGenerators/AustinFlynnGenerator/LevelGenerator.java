@@ -32,16 +32,23 @@ public class LevelGenerator implements MarioLevelGenerator{
         world_dist += 20;
     }
 
+    /**
+     * returns the lowest visible height layer of the level
+     * @param model the MarioLevelModel associated with this level
+     * @return the highest (lowest in position) y value where objects can be placed and be visible
+     */
     private int getFloor(MarioLevelModel model){
         return model.getHeight()-1;
     }
+
+    // CHUNKS //
 
     private void chunk0(MarioLevelModel model){//"PIPES"
         for(int i=world_dist;i<world_dist+20;i++){
             model.setBlock(i, getFloor(model), MarioLevelModel.GROUND);
         }
         for(int i=0;i<3;i++) {
-            model.setBlock(world_dist + (i * 6), getFloor(model) - 1, MarioLevelModel.PIPE_FLOWER);
+            model.setBlock(world_dist + (i * 6), getFloor(model) - 1, MarioLevelModel.PIPE);
             model.setBlock(world_dist + (i * 6), getFloor(model) - 2, MarioLevelModel.PIPE_FLOWER);
         }
         world_dist +=20;
@@ -154,6 +161,11 @@ public class LevelGenerator implements MarioLevelGenerator{
         model.setBlock(world_dist+19, getFloor(model)-1, MarioLevelModel.MARIO_EXIT);
     }
 
+    /**
+     * semi-randomly determines the next chunk to build
+     * @param currentChunk the id of the most recent chunk
+     * @return the id of the next chunk to be built
+     */
     private int nextChunk(int currentChunk){
         ArrayList<Double> freqs = transition_matrix.get(currentChunk);
         Double r = rng.nextDouble() % 1.0;
@@ -167,6 +179,11 @@ public class LevelGenerator implements MarioLevelGenerator{
         return 0;
     }
 
+    /**
+     * calls the chunk generation function for the next chunk
+     * @param chunk the id if the next chunk to be built
+     * @param model the MarioLevelModel associated with the level
+     */
     private void buildNext(int chunk, MarioLevelModel model){
 
         switch (chunk) {
@@ -199,48 +216,48 @@ public class LevelGenerator implements MarioLevelGenerator{
         transition_matrix = new ArrayList<>();
         transition_matrix.add(new ArrayList<Double>());
             transition_matrix.get(0).add(0.0);//repeat
-            transition_matrix.get(0).add(1.0);
-            transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(0.0);
+            transition_matrix.get(0).add(.2);
+            transition_matrix.get(0).add(.15);
+            transition_matrix.get(0).add(.3);
+            transition_matrix.get(0).add(.05);
+            transition_matrix.get(0).add(.25);
+            transition_matrix.get(0).add(.05);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(1).add(0.0);
+            transition_matrix.get(1).add(.05);
             transition_matrix.get(1).add(0.0);//repeat
-            transition_matrix.get(1).add(1.0);
-            transition_matrix.get(1).add(0.0);
-            transition_matrix.get(1).add(0.0);
-            transition_matrix.get(1).add(0.0);
-            transition_matrix.get(1).add(0.0);
+            transition_matrix.get(1).add(.1);
+            transition_matrix.get(1).add(.15);
+            transition_matrix.get(1).add(.2);
+            transition_matrix.get(1).add(.25);
+            transition_matrix.get(1).add(.25);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(2).add(0.0);
-            transition_matrix.get(2).add(0.0);
+            transition_matrix.get(2).add(.4);
+            transition_matrix.get(2).add(.3);
             transition_matrix.get(2).add(0.0);//repeat
-            transition_matrix.get(2).add(1.0);
-            transition_matrix.get(2).add(0.0);
-            transition_matrix.get(2).add(0.0);
-            transition_matrix.get(2).add(0.0);
+            transition_matrix.get(2).add(.2);
+            transition_matrix.get(2).add(.025);
+            transition_matrix.get(2).add(.025);
+            transition_matrix.get(2).add(.05);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(3).add(0.0);
-            transition_matrix.get(3).add(0.0);
+            transition_matrix.get(3).add(0.3);
+            transition_matrix.get(3).add(0.7);
             transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(0.0);//repeat
-            transition_matrix.get(3).add(1.0);
+            transition_matrix.get(3).add(0.0);
             transition_matrix.get(3).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(4).add(0.0);
-            transition_matrix.get(4).add(0.0);
-            transition_matrix.get(4).add(0.0);
-            transition_matrix.get(4).add(0.0);
+            transition_matrix.get(4).add(0.05);
+            transition_matrix.get(4).add(0.15);
+            transition_matrix.get(4).add(0.2);
+            transition_matrix.get(4).add(0.2);
             transition_matrix.get(4).add(0.0);//repeat
-            transition_matrix.get(4).add(1.0);
+            transition_matrix.get(4).add(0.4);
         transition_matrix.add(new ArrayList<Double>());
-            transition_matrix.get(5).add(1.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
-            transition_matrix.get(5).add(0.0);
+            transition_matrix.get(5).add(0.2);
+            transition_matrix.get(5).add(0.2);
+            transition_matrix.get(5).add(0.086);
+            transition_matrix.get(5).add(0.314);
+            transition_matrix.get(5).add(0.2);
             transition_matrix.get(5).add(0.0);//repeat
 
         start_chunk(model);
