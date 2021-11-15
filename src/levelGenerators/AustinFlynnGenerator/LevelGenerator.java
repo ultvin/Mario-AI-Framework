@@ -196,7 +196,7 @@ public class LevelGenerator implements MarioLevelGenerator{
             transition_matrix.get(0).add(0.0);//repeat
             transition_matrix.get(0).add(1.0);
             transition_matrix.get(0).add(0.0);
-            transition_matrix.get(0).add(1.0);
+            transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
             transition_matrix.get(0).add(0.0);
@@ -205,7 +205,7 @@ public class LevelGenerator implements MarioLevelGenerator{
             transition_matrix.get(1).add(0.0);//repeat
             transition_matrix.get(1).add(1.0);
             transition_matrix.get(1).add(0.0);
-            transition_matrix.get(1).add(1.0);
+            transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(0.0);
             transition_matrix.get(1).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
@@ -214,7 +214,7 @@ public class LevelGenerator implements MarioLevelGenerator{
             transition_matrix.get(2).add(0.0);//repeat
             transition_matrix.get(2).add(1.0);
             transition_matrix.get(2).add(0.0);
-            transition_matrix.get(2).add(1.0);
+            transition_matrix.get(2).add(0.0);
             transition_matrix.get(2).add(0.0);
         transition_matrix.add(new ArrayList<Double>());
             transition_matrix.get(3).add(0.0);
