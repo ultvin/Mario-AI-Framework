@@ -11,6 +11,7 @@ public class Agent implements MarioAgent {
     private enum mood {
         COLLECT, KILL, PROGRESS
     }
+
     private mood currentMood;
     private AStarTree tree = new AStarTree();
 
@@ -39,9 +40,49 @@ public class Agent implements MarioAgent {
         return (float)Math.sqrt(((getModelX(model)-x) * (getModelX(model)-x) + ((getModelY(model)-y) * (getModelY(model)-y))));
     }
 
+    private boolean coinsNear(MarioForwardModel model){
+        int[][] coins = getCoins(model);
+
+        for(int i = 0; i <= coins.length - 1; i++){
+            for(int j = 0; j <= coins[0].length -1; j++){
+                int type = coins[i][j] - 16;
+                if ((type == 8 || type == 15)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int[][] getCoins(MarioForwardModel model){return model.getScreenSceneObservation();}
+
+    private float coinsUtility(MarioForwardModel model){
+        float utility = 0.0f;
+        int numcoins = 0;
+        int[][] coins = getCoins(model);
+        if(coinsNear(model)){
+            for(int i = 0; i <= coins.length - 1; i++){
+                for(int j = 0; j <= coins[0].length -1; j++){
+                    int type = coins[i][j] - 16;
+                    if ((type == 8 || type == 15)){
+                       //utility += getDistance(model, i, j);
+                       numcoins++;
+                    }
+                }
+            }
+        }
+        if(utility == 0){
+            return 0;
+        }
+        else {
+            System.out.println("coins " + utility);
+            return numcoins / utility;
+        }
+    }
+
     private void reassessMood(MarioForwardModel model){
         float wrath = enemyNearUtility(model); //urge to kill
-        float greed = 0; //urge to collect
+        float greed = coinsUtility(model); //urge to collect
         float temperance = 0.01f; //urge to progress
 
         if(wrath > greed && wrath > temperance){
@@ -49,6 +90,7 @@ public class Agent implements MarioAgent {
             currentMood = mood.KILL;
         }
         else if(greed > wrath && greed > temperance){
+            System.out.println("MUST COLLECT EVERYTHING");
             currentMood = mood.COLLECT;
         }
         else currentMood = mood.PROGRESS;
@@ -69,7 +111,7 @@ public class Agent implements MarioAgent {
             return 0;
         }
         else {
-            System.out.println(numEnemies / utility);
+            System.out.println("Enemy " + numEnemies / utility);
             return numEnemies / utility;
         }
     }
