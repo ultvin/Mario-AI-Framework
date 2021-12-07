@@ -82,6 +82,7 @@ public class Agent implements MarioAgent {
     @Override
     public boolean[] getActions(MarioForwardModel model, MarioTimer timer) {
         reassessMood(model);
+
         switch(currentMood){
             case PROGRESS:
                 //TODO: Pathfind to goal
@@ -91,11 +92,16 @@ public class Agent implements MarioAgent {
 
                 break;
             case KILL:
+
                 //TODO: Pathfind to nearest enemy
                 float nearestEnemyX = 0;
                 float nearestEnemyY = 0;
+                boolean isSpiky = false;
                 for(int e=0; e<getEnemies(model).length/3; e++){
                     if(e==0){
+                        if(getEnemies(model)[3*e] == 8){
+                            isSpiky = true;
+                        }
                         nearestEnemyX = getEnemies(model)[(3*e)+1];
                         nearestEnemyY = getEnemies(model)[(3*e)+2];
                     }
@@ -108,14 +114,22 @@ public class Agent implements MarioAgent {
                        actions[MarioActions.SPEED.getValue()] = true;
                    }
                    else if(getDistance(model, nearestEnemyX,nearestEnemyY)<45){
-                       actions[MarioActions.JUMP.getValue()] = true;
-                       if(model.getMarioFloatPos()[0]<nearestEnemyX){
-                           actions[MarioActions.RIGHT.getValue()] = false;
+                       if(!isSpiky){
+                           actions[MarioActions.JUMP.getValue()] = true;
+                           if(model.getMarioFloatPos()[0]<nearestEnemyX){
+                               actions[MarioActions.RIGHT.getValue()] = false;
+                           }
+                           else if (model.getMarioFloatPos()[0]>nearestEnemyX){
+                               actions[MarioActions.LEFT.getValue()] = true;
+                           }
                        }
-                       else if (model.getMarioFloatPos()[0]<nearestEnemyX){
-                           actions[MarioActions.LEFT.getValue()] = true;
+                       else if(getDistance(model, nearestEnemyX,nearestEnemyY)<30 && model.getMarioFloatPos()[0]<nearestEnemyX){
+                           actions[MarioActions.JUMP.getValue()] = true;
+                           actions[MarioActions.RIGHT.getValue()] = true;
                        }
-
+                       else{
+                           actions[MarioActions.RIGHT.getValue()] = true;
+                       }
                    }
 
         }
