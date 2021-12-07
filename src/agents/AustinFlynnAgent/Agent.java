@@ -12,7 +12,8 @@ public class Agent implements MarioAgent {
         COLLECT, KILL, PROGRESS
     }
     private mood currentMood;
-    private AStarTree tree;
+    private AStarTree tree = new AStarTree();
+
     private boolean[] actions = new boolean[MarioActions.numberOfActions()];
     private int sense_radius = 50;
 
@@ -41,7 +42,7 @@ public class Agent implements MarioAgent {
     private void reassessMood(MarioForwardModel model){
         float wrath = enemyNearUtility(model); //urge to kill
         float greed = 0; //urge to collect
-        float temperance = 0.03f; //urge to progress
+        float temperance = 0.01f; //urge to progress
 
         if(wrath > greed && wrath > temperance){
             System.out.println("KILL MODE ENGAGED");
@@ -85,7 +86,7 @@ public class Agent implements MarioAgent {
             case PROGRESS:
                 //TODO: Pathfind to goal
 
-                actions[MarioActions.RIGHT.getValue()] = true;
+                actions = this.tree.optimise(model, timer);
 
 
                 break;
