@@ -40,69 +40,11 @@ public class Agent implements MarioAgent {
         return (float)Math.sqrt(((getModelX(model)-x) * (getModelX(model)-x) + ((getModelY(model)-y) * (getModelY(model)-y))));
     }
 
-    private boolean coinsNear(MarioForwardModel model){
-        int[][] coins = getCoins(model);
-
-        for(int i = 0; i <= coins.length - 1; i++){
-            for(int j = 0; j <= coins[0].length -1; j++){
-                int type = coins[i][j] - 16;
-                if ((type == 8 || type == 15)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private int[][] getCoins(MarioForwardModel model){return model.getScreenSceneObservation();}
-
-    private float coinsUtility(MarioForwardModel model){
-        float coinutility = 0.0f;
-        float pUputility = 0.0f;
-        float numcoins = 0;
-        float numpowerup = 0;
-        int[][] coins = getCoins(model);
-
-        if(coinsNear(model)){
-            for(int i = 0; i <= coins.length - 1; i++){
-                for(int j = 0; j <= coins[0].length -1; j++){
-                    int type = coins[i][j] - 16;
-                    if (type == 15){
-                       numcoins++;
-                    }else if(type == 8){
-                        numpowerup++;
-                    }
-                }
-            }
-        }
-
-        coinutility = numcoins/100;
-        if(model.getMarioMode() == 0){
-            pUputility = numpowerup/20;
-        }else if(model.getMarioMode() == 1){
-            pUputility = numpowerup/100;
-        }else {
-            pUputility = numpowerup/1000;
-        }
-
-
-        if(coinutility == 0 && pUputility !=0){
-            System.out.println("Coins: power up " + pUputility);
-            return pUputility;
-        }else if(coinutility != 0 && pUputility ==0){
-            System.out.println("Coins: coins " + coinutility);
-            return coinutility;
-        }
-        System.out.println("Coins " + coinutility * pUputility);
-        return coinutility * pUputility;
-    }
-
     private void reassessMood(MarioForwardModel model){
         float wrath = enemyNearUtility(model); //urge to kill
-        float greed = coinsUtility(model); //urge to collect
         float temperance = 0.01f; //urge to progress
 
-        if(wrath > greed && wrath > temperance){
+        if(wrath > temperance){
             System.out.println("KILL MODE ENGAGED");
             currentMood = mood.KILL;
         }
