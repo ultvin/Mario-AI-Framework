@@ -17,6 +17,7 @@ public class Agent implements MarioAgent {
 
     private boolean[] actions = new boolean[MarioActions.numberOfActions()];
     private int sense_radius = 50;
+    private long totalTime = 0;
 
     private float[] getEnemies(MarioForwardModel model){
         return model.getEnemiesFloatPos();
@@ -40,9 +41,9 @@ public class Agent implements MarioAgent {
         return (float)Math.sqrt(((getModelX(model)-x) * (getModelX(model)-x) + ((getModelY(model)-y) * (getModelY(model)-y))));
     }
 
-    private void reassessMood(MarioForwardModel model){
+    private void reassessMood(MarioForwardModel model, MarioTimer timer){
         float wrath = enemyNearUtility(model); //urge to kill
-        float temperance = 0.01f; //urge to progress
+        float temperance = progressUtility(model, timer); //urge to progress
 
         if(wrath > temperance){
             System.out.println("KILL MODE ENGAGED");
@@ -73,19 +74,30 @@ public class Agent implements MarioAgent {
             return 0;
         }
         else {
-            System.out.println("Enemy " + numEnemies / utility);
-            return numEnemies / utility;
+            System.out.println("Enemy " + numEnemies / Math.log(utility));
+            return numEnemies / (float) Math.log(utility);
         }
+    }
+
+    private float progressUtility(MarioForwardModel model, MarioTimer timer){
+        float utility =0.0f;
+        float disToFlag = model.getCompletionPercentage();
+        long timeRemaining = timer.getRemainingTime()/ totalTime;
+
+        System.out.println("progress " + disToFlag * timeRemaining);
+        utility = disToFlag * timeRemaining;
+        return utility;
     }
 
     @Override
     public void initialize(MarioForwardModel model, MarioTimer timer){
         currentMood = mood.PROGRESS;
+        totalTime = timer.getRemainingTime();
     }
 
     @Override
     public boolean[] getActions(MarioForwardModel model, MarioTimer timer) {
-        reassessMood(model);
+        reassessMood(model, timer);
 
         switch(currentMood){
             case PROGRESS:
