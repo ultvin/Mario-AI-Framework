@@ -9,7 +9,7 @@ import agents.robinBaumgarten.AStarTree;
 
 public class Agent implements MarioAgent {
     private enum mood {
-        COLLECT, KILL, PROGRESS
+        KILL, PROGRESS
     }
 
     private mood currentMood;
@@ -106,10 +106,7 @@ public class Agent implements MarioAgent {
             System.out.println("KILL MODE ENGAGED");
             currentMood = mood.KILL;
         }
-        else if(greed > wrath && greed > temperance){
-            System.out.println("MUST COLLECT EVERYTHING");
-            currentMood = mood.COLLECT;
-        }
+
         else currentMood = mood.PROGRESS;
     }
 
@@ -122,6 +119,12 @@ public class Agent implements MarioAgent {
                     utility += getDistance(model, getEnemies(model)[(3 * e) + 1], getEnemies(model)[(3 * e) + 2]);
                     numEnemies++;
                 }
+            }
+        }
+        if(model.getMarioMode() > 0){
+            utility *= 1.25;
+            if(utility > 1.0){
+                utility = 1.0f;
             }
         }
         if(utility == 0){
@@ -144,7 +147,7 @@ public class Agent implements MarioAgent {
 
         switch(currentMood){
             case PROGRESS:
-                //TODO: Pathfind to goal
+
 
                 actions = this.tree.optimise(model, timer);
 
@@ -152,7 +155,7 @@ public class Agent implements MarioAgent {
                 break;
             case KILL:
 
-                //TODO: Pathfind to nearest enemy
+
                 float nearestEnemyX = 0;
                 float nearestEnemyY = 0;
                 boolean isSpiky = false;
@@ -191,9 +194,7 @@ public class Agent implements MarioAgent {
                        }
                    }
                    break;
-            case COLLECT:
-                //TODO: collect coins and power ups
-                break;
+
         }
         return actions;
     }
